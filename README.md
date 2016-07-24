@@ -46,6 +46,7 @@ Example amc.ini:
 
 [Main]
 Interrupt=60 # Sleep Timer after every Scan
+
 ServerAlias=server1,server2 #Populate alias for your Servers for this Config file
 
 [server1] #Alias from [Main].ServerAlias
