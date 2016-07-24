@@ -108,7 +108,7 @@ while (1) {
 		   {
 		   	if($h_host{$server} < time-$wait_for_switch)
 		   	{
-				$default_map = @default_maps[rand @default_maps]
+				$default_map = @default_maps[rand @default_maps];
 				print "\n!!! Switch Map to " . $default_map . " !!!";
 				$mech->get($host . '/ServerAdmin/console');
 			    $mech->form_name('');
