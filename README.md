@@ -31,6 +31,12 @@ Linux:
 Download the amx.pl and amx.ini.
 
 
+Changelog:
+
+v0.0.2:
+Add support for Map List
+
+
 Your Adminuser needs Permissions on:
 /ServerAdmin/current/info
 /ServerAdmin/console
