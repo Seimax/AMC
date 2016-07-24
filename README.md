@@ -31,6 +31,10 @@ Linux:
 Download the amx.pl and amx.ini.
 
 
+Your Adminuser needs Permissions on:
+/ServerAdmin/current/info
+/ServerAdmin/console
+
 
 Example amc.ini:
 
