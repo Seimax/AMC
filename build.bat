@@ -1,0 +1,1 @@
+pp -o amc.exe amc.pl
