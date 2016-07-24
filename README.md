@@ -1,4 +1,4 @@
-#AMC v0.0.1
+#AMC v0.0.2
 Auto Mapchanger for Killing Floor 2
 Copyright (C) 2016 Maximilian Seidel
 
@@ -50,7 +50,7 @@ Username= #Webadmin User
 
 Password= #Webadmin Password
 
-DefaultMap=KF-Biolabs #Map which u want to change if server is empty
+DefaultMaps=KF-Biolabs,KF-Prison #Map which u want to change if server is empty
 
 WaitForSwitch=300 #in Seconds, after this time the script switch the map if the playercount is still 0
 
@@ -62,6 +62,6 @@ Username= #Webadmin User
 
 Password= #Webadmin Password
 
-DefaultMap=KF-Outpost #Map which u want to change if server is empty
+DefaultMaps=KF-Outpost,KF-Farmhouse #Map which u want to change if server is empty
 
 WaitForSwitch=300 #in Seconds, after this time the script switch the map if the playercount is still 0

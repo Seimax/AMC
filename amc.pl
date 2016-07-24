@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-#AMC v0.0.1
+#AMC v0.0.2
 #Auto Mapchanger for Killing Floor 2
 #Copyright (C) 2016 Maximilian Seidel
 #
@@ -32,7 +32,7 @@ my $interrupt = $cfg->val('Main', 'Interrupt'); #in seconds
 ###########CONST PART############################################
 $main_version = 0;
 $sp_version = 0;
-$patch_version = 1;
+$patch_version = 2;
 			  
 $software  = "Auto Mapchanger for Killing Floor 2";
 $short = "AMC v" . $main_version . "." . $sp_version . "." . $patch_version;
@@ -56,7 +56,7 @@ while (1) {
 		my $host	    = $cfg->val($server, 'Host');
 		my $username    = $cfg->val($server, 'Username');
 		my $password    = $cfg->val($server, 'Password');
-		my $default_map = $cfg->val($server, 'DefaultMap');
+		my @default_maps = split /,/, $cfg->val('Main', 'DefaultMaps');
 		my $wait_for_switch = $cfg->val($server, 'WaitForSwitch'); #in seconds
 		
 		print "\n###############################################";
@@ -97,7 +97,7 @@ while (1) {
 		print "\nMap         : $map";
 		
 		
-		if($playercount_cur == 0 && $map ne $default_map && $conn)
+		if($playercount_cur == 0 && $conn)
 		{
 		
 		   if(not defined $h_host{$server})
@@ -108,6 +108,7 @@ while (1) {
 		   {
 		   	if($h_host{$server} < time-$wait_for_switch)
 		   	{
+				$default_map = @default_maps[rand @default_maps]
 				print "\n!!! Switch Map to " . $default_map . " !!!";
 				$mech->get($host . '/ServerAdmin/console');
 			    $mech->form_name('');
