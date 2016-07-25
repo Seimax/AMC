@@ -26,6 +26,12 @@ use Data::Dump qw(dump);
 use Config::IniFiles;
 ##########CONFIGURATION PART################################
 my $cfg = Config::IniFiles->new( -file => "amc.ini" );
+if(!defined $cfg)
+{
+	print "Failed to open/parse amc.ini";
+	<>;
+	exit;
+}
 @servers = split /,/, $cfg->val('Main', 'ServerAlias');
 my $interrupt = $cfg->val('Main', 'Interrupt'); #in seconds
 ############################################################

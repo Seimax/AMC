@@ -22,14 +22,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Windows:
 
-Download the newes Release and unpack it.
+Download the newest Release and unpack it.
 
 Edit the amc.ini for your needs and run the amc.exe
 
 Linux:
 
 Download the amx.pl and amx.ini.
+Edit the amc.ini for your needs and run "perl amc.pl"
 
+Warning: It could be that u need to download some prerequisites!
 
 Changelog:
 
