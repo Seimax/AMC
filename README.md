@@ -1,4 +1,4 @@
-#AMC v0.0.2
+#AMC v0.0.3
 Auto Mapchanger for Killing Floor 2
 Copyright (C) 2016 Maximilian Seidel
 
