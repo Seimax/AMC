@@ -38,7 +38,7 @@ my $interrupt = $cfg->val('Main', 'Interrupt'); #in seconds
 ###########CONST PART############################################
 $main_version = 0;
 $sp_version = 0;
-$patch_version = 2;
+$patch_version = 3;
 			  
 $software  = "Auto Mapchanger for Killing Floor 2";
 $short = "AMC v" . $main_version . "." . $sp_version . "." . $patch_version;
@@ -54,6 +54,7 @@ print "\n#############################################\n";
 sleep(5);
 ###########MAGIC PART############################################
 my %h_host;
+my $conn;
 while (1) {
 	print "Initialize new scan!\n";
 	sleep(2);
@@ -70,12 +71,11 @@ while (1) {
 		
 		my $mech = WWW::Mechanize->new(timeout=>120);
 		$mech->cookie_jar(HTTP::Cookies->new());
-		my $conn = eval {
-			$mech->get($host . '/ServerAdmin/');
-			1};
+		eval {
 		
-		if ($conn)
-		{
+			my $resp = $mech->get($host . '/ServerAdmin/');
+			$resp->is_success or die $resp->status_line;
+			
 			$mech->form_name('loginform');
 			$mech->field ('username' => $username);
 			$mech->field ('password' => $password);
@@ -90,13 +90,18 @@ while (1) {
 			my $currentGame = $w->find('#currentGame')->as_html;
 			($map) = $currentGame =~ /<dt>Map<\/dt><dd title="(.*)">/;
 			($servername)= $currentGame =~ /<dt>Server Name<\/dt><dd>(.*)<\/dd><dt>Cheat/;
-		}
-		else
+			$conn = 1;
+
+		};
+		
+		if ($@) 
 		{
 			$servername = 'Not available';
 			$playercount = '0/0';
 			$map = 'Not available';
+			$conn = 0;
 		}
+
 		
 		print "\nServername  : $servername";
 		print "\nPlayercount : $playercount";
@@ -115,12 +120,20 @@ while (1) {
 		   	if($h_host{$server} < time-$wait_for_switch)
 		   	{
 				$default_map = @default_maps[int(rand(@default_maps))];
-				print "\n!!! Switch Map to " . $default_map . " !!!";
-				$mech->get($host . '/ServerAdmin/console');
-			    $mech->form_name('');
-			    $mech->field ('command' => 'Switch ' . $default_map);
-			    $mech->click('');
-				$h_host{$server} = undef;
+				eval {
+					$resp = $mech->get($host . '/ServerAdmin/console');
+					$resp->is_success or die $resp->status_line;
+					print "\n!!! Switch Map to " . $default_map . " !!!";
+					$mech->form_name('');
+					$mech->field ('command' => 'Switch ' . $default_map);
+					$mech->click('');
+					$h_host{$server} = undef;
+				};
+				if ($@) 
+				{
+                   print "Error while Mapchange!\n";
+                }
+
 			}
 		   }
 		}
