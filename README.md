@@ -1,4 +1,4 @@
-#AMC v0.0.3
+#AMC v1.0.0
 Auto Mapchanger for Killing Floor 2
 Copyright (C) 2016 Maximilian Seidel
 
@@ -35,6 +35,13 @@ Warning: It could be that u need to download some prerequisites!
 
 Changelog:
 
+v1.0.0:
+Advertising Support
+Fixed Bug in Binary which prevent start on some machines
+
+v0.0.3:
+Bugfixes
+
 v0.0.2:
 Add support for Map List
 
@@ -51,6 +58,24 @@ Interrupt=60 # Sleep Timer after every Scan
 
 ServerAlias=server1,server2 #Populate alias for your Servers for this Config file
 
+[adv01] 
+
+Message=Thanks for playing on %Servername%! 
+
+Interval=300
+
+FirstStartDelay=0
+
+
+[adv02]
+
+Message=Checkout also our other server! Visit http://uwe.hackerknowledge.de
+
+Interval=300
+
+FirstStartDelay=30 # To avoid doubleposting
+
+
 [server1] #Alias from [Main].ServerAlias
 
 Host=http://server1.yourdomain.de:8080 #Webadmin Domain
@@ -63,6 +88,8 @@ DefaultMaps=KF-Biolabs,KF-Prison #Map which u want to change if server is empty
 
 WaitForSwitch=300 #in Seconds, after this time the script switch the map if the playercount is still 0
 
+ActiveAds=adv01,adv02 #activate the Ads
+
 [server2] #Alias from [Main].ServerAlias
 
 Host=http://server2.yourdomain.de:8080 #Webadmin Domain
@@ -74,3 +101,5 @@ Password= #Webadmin Password
 DefaultMaps=KF-Outpost,KF-Farmhouse #Map which u want to change if server is empty
 
 WaitForSwitch=300 #in Seconds, after this time the script switch the map if the playercount is still 0
+
+ActiveAds=adv01,adv02 #activate the Ads

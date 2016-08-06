@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-#AMC v0.0.2
 #Auto Mapchanger for Killing Floor 2
 #Copyright (C) 2016 Maximilian Seidel
 #
@@ -21,13 +20,17 @@
 
 use LWP;
 use WWW::Mechanize;
-use Web::Query qw();
+use Web::Query;
 use Data::Dump qw(dump);
 use Config::IniFiles;
-##########CONFIGURATION PART################################
-my $cfg = Config::IniFiles->new( -file => "amc.ini" );
-if(!defined $cfg)
+##########CONFIGURATION PART###;#############################
+my $cfg;
+eval {
+$cfg = Config::IniFiles->new( -file => "amc.ini" );
+};
+if($@)
 {
+	dump($@);
 	print "Failed to open/parse amc.ini";
 	<>;
 	exit;
@@ -36,9 +39,9 @@ if(!defined $cfg)
 my $interrupt = $cfg->val('Main', 'Interrupt'); #in seconds
 ############################################################
 ###########CONST PART############################################
-$main_version = 0;
+$main_version = 1;
 $sp_version = 0;
-$patch_version = 3;
+$patch_version = 0;
 			  
 $software  = "Auto Mapchanger for Killing Floor 2";
 $short = "AMC v" . $main_version . "." . $sp_version . "." . $patch_version;
@@ -53,10 +56,11 @@ print "\n### Visit : " . $url . " ###";
 print "\n#############################################\n";
 sleep(5);
 ###########MAGIC PART############################################
-my %h_host;
+my %h_host; 
+my %h_ads;
 my $conn;
 while (1) {
-	print "Initialize new scan!\n";
+	print "Initialize new scan!\n"; 	
 	sleep(2);
 	foreach $server (@servers) {
 		
@@ -64,7 +68,8 @@ while (1) {
 		my $username    = $cfg->val($server, 'Username');
 		my $password    = $cfg->val($server, 'Password');
 		my @default_maps = split /,/, $cfg->val($server, 'DefaultMaps');
-		my $wait_for_switch = $cfg->val($server, 'WaitForSwitch'); #in seconds
+		my @activeAds = split /,/, $cfg->val($server, 'ActiveAds');
+		my $wait_for_switch = $cfg->val($server, 'WaitForSwitch', 300); #in seconds
 		
 		print "\n###############################################";
 		print "\nHost        : $host";
@@ -75,14 +80,11 @@ while (1) {
 		
 			my $resp = $mech->get($host . '/ServerAdmin/');
 			$resp->is_success or die $resp->status_line;
-			
 			$mech->form_name('loginform');
 			$mech->field ('username' => $username);
 			$mech->field ('password' => $password);
 			$mech->click('');
-
 			my $w = Web::Query->new_from_html($mech-> content());
-			
 			my $rules = $w->find('#currentRules')->text;
 			($playercount)= $rules =~ /Players(.*)Minimum/;
 			($playercount_cur)= $playercount =~ /(.*)\//;
@@ -93,9 +95,9 @@ while (1) {
 			$conn = 1;
 
 		};
-		
+	
 		if ($@) 
-		{
+		{	print dump($@);
 			$servername = 'Not available';
 			$playercount = '0/0';
 			$map = 'Not available';
@@ -107,8 +109,49 @@ while (1) {
 		print "\nPlayercount : $playercount";
 		print "\nMap         : $map";
 		
+		if($playercount_cur > 0 && $conn && $#activeAds > 0)
+		{
+			if(not defined $h_ads{$server})
+			{
+					
+				foreach $ad (@activeAds) {
+					$h_ads{$server}{$ad} = time +  $cfg->val($ad, 'FirstStartDelay', 0);
+					print "\nPost Ad $ad at " . localtime($h_ads{$server}{$ad} + $cfg->val($ad, 'Interval', 300));
+				}
+
+			}
+			else
+			{
+				foreach $ad (@activeAds) {
+					if($h_ads{$server}{$ad} < time-$cfg->val($ad, 'Interval', 300))
+					{
+						eval {
+							$resp = $mech->get($host . '/ServerAdmin/current/chat');
+							$resp->is_success or die $resp->status_line;
+							print "\n!!! Post Ad $ad !!!";
+							$mech->form_name('chatform');
+							my $ad_message = $cfg->val($ad, 'Message');
+							$ad_message =~ s/%Servername%/$servername/;
+							$ad_message =~ s/%Map%/$map/;
+							$ad_message =~ s/%Playercount%/$playercount/;
+							$mech->field ('message' => $ad_message);
+							$mech->click('');
+							$h_ads{$server}{$ad} = time;
+						};
+						if ($@) 
+						{
+						   print "Error while Posting Ads!\n";
+						}
+					}
+					else
+					{
+						print "\nPost Ad $ad at " . localtime($h_ads{$server}{$ad} + $cfg->val($ad, 'Interval', 300));
+					}
+				}
+			}
+		}
 		
-		if($playercount_cur == 0 && $conn)
+		if($playercount_cur == 0 && $conn && $#default_maps > 0)
 		{
 		
 		   if(not defined $h_host{$server})

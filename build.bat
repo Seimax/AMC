@@ -1,1 +1,1 @@
-pp -o amc.exe amc.pl
+pp -u -o amc.exe amc.pl
