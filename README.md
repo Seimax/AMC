@@ -68,7 +68,7 @@ Interrupt=60 # Sleep Timer after every Scan
 ServerAlias=server1,server2 #Populate alias for your Servers for this Config file
 
 [adv01] 
-Message=Thanks for playing on %Servername%! 
+Message=Thanks for playing on %Servername%!  # Availible Variables: %Map% %Servername% %Playercount%
 Interval=300
 FirstStartDelay=0
 
