@@ -30,7 +30,7 @@ $cfg = Config::IniFiles->new( -file => "amc.ini" );
 };
 if($@)
 {
-	dump($@);
+	print dump($@);
 	print "Failed to open/parse amc.ini";
 	<>;
 	exit;
@@ -97,7 +97,8 @@ while (1) {
 		};
 	
 		if ($@) 
-		{	print dump($@);
+		{	
+		    print dump($@);
 			$servername = 'Not available';
 			$playercount = '0/0';
 			$map = 'Not available';
@@ -149,6 +150,10 @@ while (1) {
 					}
 				}
 			}
+		}
+		else
+		{
+			$h_ads{$server} = undef; #Reset Ads
 		}
 		
 		if($playercount_cur == 0 && $conn && $#default_maps > 0)
