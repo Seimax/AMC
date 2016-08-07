@@ -64,7 +64,7 @@ Your Adminuser needs Permissions on:
 # Example amc.ini:
 ```
 [Main]
-Interrupt=60 # Sleep Timer after every Scan
+Interrupt=30 # Sleep Timer after every Scan
 ServerAlias=server1,server2 #Populate alias for your Servers for this Config file
 
 [adv01] 
