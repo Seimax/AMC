@@ -61,7 +61,6 @@ my %h_ads;
 my $conn;
 while (1) {
 	print "Initialize new scan!\n"; 	
-	sleep(2);
 	foreach $server (@servers) {
 		
 		my $host	    = $cfg->val($server, 'Host');
