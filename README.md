@@ -2,7 +2,7 @@
 Auto Mapchanger for Killing Floor 2
 Copyright (C) 2016 Maximilian Seidel
 
-http://uwe.hackerknowledge.de
+http://www.playuwe.net
 
 
 This program is free software: you can redistribute it and/or modify
