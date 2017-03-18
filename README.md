@@ -46,7 +46,7 @@ Edit the `amc.ini` for your needs and run the `amc.exe`
 
 ### Linux:
 
-Download the `amx.pl` and `amx.ini`.
+Download the `amc.pl` and `amc.ini`.
 
 Edit the `amc.ini` for your needs and run `perl amc.pl`
 
