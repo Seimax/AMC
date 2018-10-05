@@ -2,7 +2,7 @@
 #Auto Mapchanger for Killing Floor 2
 #Copyright (C) 2016 Maximilian Seidel
 #
-#http://uwe.hackerknowledge.de
+#http://www.playuwe.net
 #
 #
 #This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,7 @@ $patch_version = 0;
 $software  = "Auto Mapchanger for Killing Floor 2";
 $short = "AMC v" . $main_version . "." . $sp_version . "." . $patch_version;
 $copyright = "Copyright (C) 2016 Maximilian Seidel";
-$url = "http://uwe.hackerknowledge.de";
+$url = "http://www.playuwe.net";
 ############################################################
 print "#############################################";
 print "\n### " . $short . "                            ###";
